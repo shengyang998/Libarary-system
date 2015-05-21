@@ -6,4 +6,7 @@
 
 #define MAX_STR_LENGTH 100
 
+#define USER_EXIT -1
+#define ACCESS_GRANTED 0
+
 #endif //MAIN_H
