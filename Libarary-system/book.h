@@ -1,8 +1,7 @@
 #ifndef BOOK_H
 #define BOOK_H
 
-#define SMALL_TO_LARGE 0
-#define LARGE_TO_SMALL 1
+#include"main.h"
 
 template<typename T>
 class Book{

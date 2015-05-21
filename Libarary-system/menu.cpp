@@ -1,24 +1,23 @@
 #include<iostream>
-#include<fstream>
-
+#include"main.h"
 using namespace std;
 
 #define USER_EXIT -1
 
-int login(char (&username)[100], char (&password)[100]){
+int login(char(&username)[MAX_STR_LENGTH], char(&password)[MAX_STR_LENGTH]){
 	cout << "Welcome to the Libarary Control System." << endl
 		<< "Please login. " << endl << "or input exit to exit. " << endl;
-	char userName[100] = {};
-	char passWord[100] = {};
-	char exit[100] = "exit";
+	char userName[MAX_STR_LENGTH] = {};
+	char passWord[MAX_STR_LENGTH] = {};
+	char exit[MAX_STR_LENGTH] = "exit";
 	do{
 		cout << "Username: ";
-		cin.getline(userName, 100);
+		cin.getline(userName, MAX_STR_LENGTH);
 		if (!strcmp(userName, exit)) return USER_EXIT;
 		cout << "Password: ";
-		cin.getline(passWord, 100);
+		cin.getline(passWord, MAX_STR_LENGTH);
 		if (!strcmp(passWord, exit)) return USER_EXIT;
-	} while (strcmp(userName, username) || strcmp(passWord, password));
+	} while (strcmp(userName, username) || strcmp(passWord, password));//strcmp() returns 0 if they are equal
 
 
 
