@@ -9,6 +9,7 @@ char *encode(char(&str)[MAX_STR_LENGTH]);
 char *decode(char(&str)[MAX_STR_LENGTH]);
 int menu();
 
+
 int main(){
 	system("color 0a");
 	char userName[100] = "admin";//it should be read from file
@@ -19,15 +20,22 @@ int main(){
 	
 	switch (login(userName, passWord)){
 	case USER_EXIT:
-		std::cout << "Login failed: USER_EXIT" << std::endl;
+		std::cerr << "Login failed: USER_EXIT" << std::endl;
 		break;
-	case ACCESS_GRANTED:
+	case ACCESS_GRANTED:{
 		std::cout << "Wlocome back " << userName << "!" << std::endl
 			<< "Notice:Your last login is at " << lastLogin
 			<< "\n//* This should be the date read from file *//" << std::endl;
+
+		char isbn1[MAX_STR_LENGTH] = "ABCDEFGHIJKLMN";
+		char bookName1[MAX_STR_LENGTH] = "The Lord Of The Ring";
+		char classname1[MAX_STR_LENGTH] = "TLOTR";
 		
+		Book book1(isbn1, bookName1, 100, classname1, IN_LIB);
+
 		switch (menu()){
 		case USER_EXIT:
+			std::cout << "The system is goinng to EXIT now.";
 			return USER_EXIT;
 		case 1:
 			break;
@@ -36,6 +44,7 @@ int main(){
 		case 3:
 			break;
 		case 4:
+			book1.sort(SMALL_TO_LARGE);
 			break;
 		case 5:
 			break;
@@ -45,8 +54,9 @@ int main(){
 			break;
 		}
 		break;
+	}
 	default:
-		std::cout << "Unknow ERROR." << std::endl;
+		std::cerr << "Unknow ERROR." << std::endl;
 		break;
 	}
 	return 0;

@@ -6,9 +6,9 @@ using namespace std;
 int login(char(&username)[MAX_STR_LENGTH], char(&password)[MAX_STR_LENGTH]){
 	cout << "Welcome to the Libarary Control System." << endl
 		<< "Please login. " << endl << "or input exit to exit. " << endl;
-	char userName[MAX_STR_LENGTH] = {};
-	char passWord[MAX_STR_LENGTH] = {};
-	char exit[MAX_STR_LENGTH] = "exit";
+	str userName = {};
+	str passWord = {};
+	str exit = "exit";
 	do{
 		cout << "Username: ";
 		cin.getline(userName, MAX_STR_LENGTH);
@@ -30,13 +30,13 @@ int menu(){
 		<< "5.Search & Select" << endl
 		<< "6.Delete the Selected data" << endl;
 	int choice;
-	while (!(cin >> choice) || (choice < 1 && choice > 6)){
+	while (!(cin >> choice) || (choice < 0 || choice > 6)){
 		cin.clear();
 		cin.ignore(100, '\n');
 		cout << "Error. Please choose again:";
 	}
 	switch (choice){
-	case USER_EXIT:
+	case 0:
 		return USER_EXIT;
 	case 1:
 		return 1;
@@ -51,7 +51,7 @@ int menu(){
 	case 6:
 		return 6;
 	default:
-		cout<<"Unknown choice at menu.";
+		cerr<<"Unknown choice at menu.";
 	}
 	return 0;
 }
