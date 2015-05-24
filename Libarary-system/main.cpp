@@ -23,6 +23,7 @@ int main(){
 		std::cerr << "Login failed: USER_EXIT" << std::endl;
 		break;
 	case ACCESS_GRANTED:{
+		system("cls");
 		std::cout << "Wlocome back " << userName << "!" << std::endl
 			<< "Notice:Your last login is at " << lastLogin
 			<< "\n//* This should be the date read from file *//" << std::endl;
@@ -49,7 +50,7 @@ int main(){
 			break;
 		case 4:
 			sort(book, 2, SMALL_TO_LARGE);
-			std::cout << book[0] << book[1];
+			std::cout << book[0] << std::endl << book[1];
 			std::cin.get(); std::cin.get();
 			break;
 		case 5:

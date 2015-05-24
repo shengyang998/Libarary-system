@@ -37,6 +37,7 @@ int menu(){
 	}
 	switch (choice){
 	case 0:
+		system("cls");
 		system("color cf");
 		return USER_EXIT;
 	case 1:
@@ -46,6 +47,7 @@ int menu(){
 	case 3:
 		return 3;
 	case 4:
+		system("cls");
 		system("color 0b");
 		return 4;
 	case 5:
