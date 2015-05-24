@@ -31,7 +31,11 @@ int main(){
 		char bookName1[MAX_STR_LENGTH] = "The Lord Of The Ring";
 		char classname1[MAX_STR_LENGTH] = "TLOTR";
 		
-		Book book1(isbn1, bookName1, 100, classname1, IN_LIB);
+		char isbn2[MAX_STR_LENGTH] = "NMLKJIHGFEDCBA";
+		char bookName2[MAX_STR_LENGTH] = "The Matrix";
+		char classname2[MAX_STR_LENGTH] = "TM";
+
+		Book book[2] = { Book(isbn1, bookName1, 100, classname1, 10), Book(isbn2, bookName2, 10, classname2, 0) };
 
 		switch (menu()){
 		case USER_EXIT:
@@ -44,7 +48,9 @@ int main(){
 		case 3:
 			break;
 		case 4:
-			book1.sort(SMALL_TO_LARGE);
+			sort(book, 2, SMALL_TO_LARGE);
+			std::cout << book[0] << book[1];
+			std::cin.get(); std::cin.get();
 			break;
 		case 5:
 			break;

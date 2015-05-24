@@ -9,11 +9,17 @@
 #define USER_EXIT -1
 #define ACCESS_GRANTED 0
 
-#define IN_LIB 1
-#define NO_IN_LIB 0
-
 #define SORT_SUCCESS 0
 
+typedef long long stockNum;
+
 typedef char str[MAX_STR_LENGTH];
+
+template<typename T>
+void mySwap(T &left, T &right){
+	T temp = left;
+	left = right;
+	right = temp;
+}
 
 #endif //MAIN_H_LIBSYS
