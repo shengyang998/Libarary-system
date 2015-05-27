@@ -1,61 +1,62 @@
 #include"main.h"
 #include"book.h"
+#include"user.h"
 
-#include<iostream>
-#include<fstream>
-
-int login(char(&username)[MAX_STR_LENGTH], char(&password)[MAX_STR_LENGTH]);
-char *encode(char(&str)[MAX_STR_LENGTH]);
-char *decode(char(&str)[MAX_STR_LENGTH]);
+int login(const User &user);
 int menu();
 
-
 int main(){
-	system("color 0a");
-	char userName[100] = "admin";//it should be read from file
-	//strcpy_s(userName, 100, decode(userName));
-	char passWord[100] = "admin";
-	//strcpy_s(passWord, 100, decode(passWord));
-	char lastLogin[100] = "2015/05/21 09:49:45";
+
+	//Book::counter = 0;
+	system("color 0a");//set the color
+	std::ifstream fin; std::ofstream fout;
+
+	/* Init the Username and Password */
+	fin.open("fout.bin", std::ios::binary);
+	User ysy(fin.is_open(), fin);
 	
-	switch (login(userName, passWord)){
+	/* Login */
+	switch (login(ysy)){
 	case USER_EXIT:
 		std::cerr << "Login failed: USER_EXIT" << std::endl;
 		break;
 	case ACCESS_GRANTED:{
 		system("cls");
-		std::cout << "Wlocome back " << userName << "!" << std::endl
-			<< "Notice:Your last login is at " << lastLogin
-			<< "\n//* This should be the date read from file *//" << std::endl;
+		std::cout << "Wlocome back " << ysy.getUN() << "!" << std::endl;
+			//<< "Notice:Your last login is at " << ysy.getLastLogin()
+			//<< "\n//* This should be the date read from file *//" << std::endl;
 
-		char isbn1[MAX_STR_LENGTH] = "ABCDEFGHIJKLMN";
-		char bookName1[MAX_STR_LENGTH] = "The Lord Of The Ring";
-		char classname1[MAX_STR_LENGTH] = "TLOTR";
-		
-		char isbn2[MAX_STR_LENGTH] = "NMLKJIHGFEDCBA";
-		char bookName2[MAX_STR_LENGTH] = "The Matrix";
-		char classname2[MAX_STR_LENGTH] = "TM";
+		/* Init the data */
+		//fout.open("fout.bin", std::ios::app | std::ios::binary);//use it when ouput the file
+		fin.seekg(sizeof(str) + sizeof(str), fin.beg);
 
-		Book book[2] = { Book(isbn1, bookName1, 100, classname1, 10), Book(isbn2, bookName2, 10, classname2, 0) };
+		fin.read((char*)&Book::counter, sizeof(LL));
+		std::cout << "There are " << Book::counter << " books." << std::endl;
 
+		/* Main menu */
 		switch (menu()){
+		case CHANGE_UN_PW:
+
+			break;
 		case USER_EXIT:
-			std::cout << "The system is goinng to EXIT now.";
+			std::cerr << "The system is goinng to EXIT now.";
 			return USER_EXIT;
-		case 1:
+		case READ_FROM_FILE:
 			break;
-		case 2:
+		case WRITE_TO_FILE:
 			break;
-		case 3:
+		case INPUT_DATA:
 			break;
-		case 4:
-			sort(book, 2, SMALL_TO_LARGE);
-			std::cout << book[0] << std::endl << book[1];
-			std::cin.get(); std::cin.get();
+		case SEARCH_SELECT:
 			break;
-		case 5:
+		case SORT_DATA:
+			//sort(book, 2, SMALL_TO_LARGE);
+			//std::cout << book[0] << std::endl << book[1];
+			//std::cin.get();
 			break;
-		case 6:
+		case DELETE_SELECTED:
+			break;
+		case MODIFY_SELECTED:
 			break;
 		default:
 			break;
@@ -66,5 +67,6 @@ int main(){
 		std::cerr << "Unknow ERROR." << std::endl;
 		break;
 	}
+
 	return 0;
 }

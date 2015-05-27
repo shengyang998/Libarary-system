@@ -1,43 +1,28 @@
-#include<iostream>
 #include"main.h"
 using namespace std;
 
-
-int login(char(&username)[MAX_STR_LENGTH], char(&password)[MAX_STR_LENGTH]){
-	cout << "Welcome to the Libarary Control System." << endl
-		<< "Please login. " << endl << "or input exit to exit. " << endl;
-	str userName = {};
-	str passWord = {};
-	str exit = "exit";
-	do{
-		cout << "Username: ";
-		cin.getline(userName, MAX_STR_LENGTH);
-		if (!strcmp(userName, exit)) return USER_EXIT;
-		cout << "Password: ";
-		cin.getline(passWord, MAX_STR_LENGTH);
-		if (!strcmp(passWord, exit)) return USER_EXIT;
-	} while (strcmp(userName, username) || strcmp(passWord, password));//strcmp() returns 0 if they are equal
-	return ACCESS_GRANTED;
-}
-
 int menu(){
-	cout << "What do you want to do? Please select one and press Enter to continue."
+	cout << "What do you want to do? Please select one and press Enter to continue." << endl
+		<< "-1.Change your username and password" << endl
 		<< "0.EXIT" << endl
 		<< "1.Read Data from file" << endl
 		<< "2.Write Data to file" << endl
 		<< "3.Input Data with keyboard" << endl
-		<< "4.Sort" << endl
-		<< "5.Search & Select" << endl
-		<< "6.Delete the Selected data" << endl;
+		<< "4.Search & Select" << endl
+		<< "5.Sort " << endl
+		<< "6.Delete the Selected one" << endl
+		<< "7.Modify the Selected one" << endl;
 	int choice;
-	while (!(cin >> choice) || (choice < 0 || choice > 6)){
+	while (!(cin >> choice) || (choice < -2 || choice > 7)){
 		cin.clear();
 		cin.ignore(100, '\n');
 		cout << "Error. Please choose again:";
 	}
+	cin.ignore(100, '\n');
 	switch (choice){
+	case -1:
+		return CHANGE_UN_PW;
 	case 0:
-		system("cls");
 		system("color cf");
 		return USER_EXIT;
 	case 1:

@@ -1,12 +1,12 @@
-
 #include"main.h"
 #include"book.h"
 
-Book::Book(char(&isbn)[MAX_STR_LENGTH], char(&name)[MAX_STR_LENGTH], double price, char(&className)[MAX_STR_LENGTH], stockNum num){
-	strcpy_s(this->isbn, MAX_STR_LENGTH, isbn);
-	strcpy_s(this->name, MAX_STR_LENGTH, name);
+Book::Book(str &name, str &author, str &isbn, double price, str &className, stockNum num){
+	strcpy_s(this->isbn, STD_STR_LENGTH, isbn);
+	strcpy_s(this->author, STD_STR_LENGTH, author);
+	strcpy_s(this->name, STD_STR_LENGTH, name);
 	this->price = price;
-	strcpy_s(this->className, MAX_STR_LENGTH, className);
+	strcpy_s(this->className, STD_STR_LENGTH, className);
 	this->num = num;
 }
 
@@ -25,7 +25,14 @@ Book *sort(Book *bookArr,int arrSize, int order){
 		}
 		break;
 	case LARGE_TO_SMALL:
-
+		for (int i = 0; i < arrSize; i++){//Seletion sort
+			pMax = &bookArr[i];
+			for (int j = i; j < arrSize; j++){
+				if ((*pMax).price < bookArr[j].price)
+					pMax = &bookArr[j];
+			}
+			mySwap(*pMax, bookArr[i]);
+		}
 		break;
 	default:
 
@@ -34,10 +41,26 @@ Book *sort(Book *bookArr,int arrSize, int order){
 	return SORT_SUCCESS;
 }
 
+std::ofstream& Book::binOutput(std::ofstream &fout){
+	fout.write(name, sizeof(name));
+	fout.write(author, sizeof(author));
+	fout.write(className, sizeof(className));
+	fout.write(isbn, sizeof(isbn));
+	fout.write((char*)&price, sizeof(price));
+	fout.write((char*)this, sizeof(Book));
+	return fout;
+}
+
 std::ostream &operator<<(std::ostream &out, Book &book){
-	std::cout << "The name is: " << book.name << std::endl
+	out << "The name is " << book.name << std::endl
+		<< "Author: "
 		<< "ISBN: " << book.isbn << std::endl
 		<< "Price: " << book.price << std::endl
 		<< "Stock number: " << book.num << std::endl;
 	return out;
+}
+
+std::istream &operator>>(std::istream &in, Book &book){
+	in >> book.name >> book.author >> book.className >> book.isbn >>  book.price;
+	return in;
 }

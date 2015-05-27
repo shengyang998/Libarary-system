@@ -1,23 +1,25 @@
 #ifndef BOOK_H_LIBSYS
 #define BOOK_H_LIBSYS
 
-#include<iostream>
-#include<fstream>
-#include<cstring>
 #include"main.h"
 
 class Book{
+public:
+	static int counter;
 protected:
-	str isbn;
 	str name;
+	str author;
+	str isbn;
 	double price;
 	str className;//className in lib
 	stockNum num;
-	static int counter;
+
 public:
-	Book(char(&isbn)[MAX_STR_LENGTH], char(&name)[MAX_STR_LENGTH], double price, char(&className)[MAX_STR_LENGTH], stockNum num);
+	Book(str &name, str &author, str &isbn, double price, str &className, stockNum num);
+	std::ofstream& Book::binOutput(std::ofstream &fout);
 	friend Book *sort(Book *bookArr, int arrSize, int order);
 	friend std::ostream &operator<<(std::ostream &out, Book &book);
+	friend std::istream &operator>>(std::istream &in, Book &book);
 };
 
 #endif //BOOK_H_LIBSYS
