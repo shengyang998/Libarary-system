@@ -57,21 +57,23 @@ int main(){
 					}else
 						break;
 				case USER_EXIT:
-					system("cls");
-					system("color 0c");
+					system("cls"); system("color 0c");
 					std::cerr << "The system is goinng to EXIT now.";
 					return USER_EXIT;
 					break;
 				case READ_FROM_BIN_FILE:
+					system("cls"); system("color 0f");
 					if (!fio.is_open()) fio.open("data.bin", std::ios::in | std::ios::binary);
 					fio.seekg(2 * sizeof(str) + sizeof(LL), fio.beg);
 					for (int i = 0; i < Book::counter; i++){
 						pBook[i].binInput(fio);
 						//fin.seekg((i + 1)*sizeof(Book), fin.beg + sizeof(LL));
 					}
+					std::cout << "Done. Input successfully." << std::endl;
 					fio.close();
 					break;
 				case WRITE_TO_FILE:
+					system("cls"); system("color 0f");
 					if (!fio.is_open()) fio.open("fout.bin", std::ios::out | std::ios::binary);
 					fio.write((char*)&Book::counter, sizeof(LL));
 					for (int i = 0; i < Book::counter; i++){
@@ -97,10 +99,21 @@ int main(){
 					for (int i = Book::counter - num; i < Book::counter; i++){
 						inputData(newBook[i]);
 					}
+					pBook = newBook;
 					break;
 				case SEARCH_SELECT:
-					system("cls");
-					system("color 0b");
+					system("cls"); system("color 0b");
+					std::cout << "Please input what you want to search: ";
+					str target;
+					std::cin.getline(target, STD_STR_LENGTH);
+					int countHit = 0;
+					for (int i = 0; i < Book::counter; i++){
+						if (pBook[i].find(target) == true) {
+							std::cout << pBook[i];
+							countHit++;
+						}
+					}
+					std::cout << "There are " << countHit << " hitted in total.";
 					break;
 				case SORT_DATA:
 					//sort(book, 2, SMALL_TO_LARGE);

@@ -79,6 +79,8 @@ template<typename T> T& arrcpy(T(&arr1), int length, T(&arr2)){
 	for (int i = 0; i < length; i++){
 		arr1[i] = arr2[i];
 	}
+	delete arr2;
+	arr2 = nullptr;
 	return arr1;
 }
 
