@@ -43,8 +43,8 @@ int main(){
 	//ysy.writeUNPW(fout);
 
 	/* Init the Username and Password */
-	fio.open("UNPW.bin", std::ios::in|std::ios::out|std::ios::trunc|std::ios::binary);
-	User ysy(fio.is_open(), fio);
+	fio.open("UNPW.bin", std::ios::in|std::ios::out|std::ios::binary);
+	User ysy(fio);
 	fio.close();
 	
 	/* Login */
@@ -186,11 +186,11 @@ int main(){
 					break;
 				}
 			}
-			delete newBook;
+			delete[] newBook;
 			newBook = nullptr;
-			delete pSelected;
+			delete[] pSelected;
 			pSelected = nullptr;
-			delete pBook;
+			delete[] pBook;
 			pBook = nullptr;
 		}
 		break;

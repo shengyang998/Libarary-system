@@ -3,6 +3,28 @@
 #include"user.h"
 using namespace std;
 
+int login(const User &user){
+	std::cout << "Welcome to the Libarary Control System." << std::endl
+		<< "Please login. " << std::endl << "(input exit to exit)" << std::endl;
+	str userName = {};
+	str passWord = {};
+	str exit = "exit";
+	LL count = 0;
+	do{
+		if (++count > 1){
+			std::cout << "Your username or password are invaild." << std::endl
+				<< " Please check your input and retry:";
+		}
+		std::cout << "Username: ";
+		std::cin.getline(userName, STD_STR_LENGTH);
+		if (!strcmp(userName, exit)) return USER_EXIT;
+		std::cout << "Password: ";
+		std::cin.getline(passWord, STD_STR_LENGTH);
+		if (!strcmp(passWord, exit)) return USER_EXIT;
+	} while (strcmp(userName, user.username) || strcmp(passWord, user.password));//strcmp() returns 0 if they are equal
+	return ACCESS_GRANTED;
+}
+
 int menu(){
 	cout << "What do you want to do? Please select one and press Enter to continue." << endl
 		<< "-1.Change your username and password" << endl
@@ -74,7 +96,6 @@ int changeUNPW(User &user, fstream &fout){
 		break;
 	}
 }
-
 
 int inputData(Book &book){
 	str bookName, author, isbn, className;

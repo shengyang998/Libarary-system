@@ -1,8 +1,8 @@
 #include<fstream>
 #include"user.h"
 
-User::User(bool flag, std::fstream &fio){
-	if (flag == 1){//open succeed
+User::User(std::fstream &fio){
+	if (fio.is_open() && (fio.beg != fio.end)){//open succeed
 		readUNPW(fio);
 	}
 	else{
@@ -11,7 +11,7 @@ User::User(bool flag, std::fstream &fio){
 			<< "Please set your own username and password firstly." << std::endl
 			<< "Username: ";
 		std::cin.getline(un, sizeof(str));
-		std::cout << "PassWord: ";
+		std::cout << "Password: ";
 		std::cin.getline(pw, sizeof(str));
 		strcpy_s(username, STD_STR_LENGTH, un);
 		strcpy_s(password, STD_STR_LENGTH, pw);
@@ -44,12 +44,16 @@ char* User::decode(str &unpw){//run before using the str
 	return unpw;
 }
 
-void User::changeUNPW(str &un, str &pw){
+int User::changeUNPW(str &un, str &pw){
 	strcpy_s(username, STD_STR_LENGTH, un);
 	strcpy_s(password, STD_STR_LENGTH, pw);
+	return 0;
 }
 
-void User::writeUNPW(std::fstream &fout){
+int User::writeUNPW(std::fstream &fout){
+	if (!fout.is_open()){
+		fout.open("UNPW.bin", std::ios::out, std::ios::binary);
+	}
 	auto fpos = fout.cur;
 	fout.seekp(0, fout.beg);
 	encode(username);
@@ -57,9 +61,10 @@ void User::writeUNPW(std::fstream &fout){
 	fout.write((char*)&username, sizeof(str));
 	fout.write((char*)&password, sizeof(str));
 	fout.seekp(0, fpos);
+	return 0;
 }
 
-void User::readUNPW(std::fstream &fin){
+int User::readUNPW(std::fstream &fin){
 	auto fpos = fin.cur;
 	fin.seekg(0, fin.beg);
 	fin.read(username, sizeof(str));
@@ -67,21 +72,5 @@ void User::readUNPW(std::fstream &fin){
 	decode(username);
 	decode(password);
 	fin.seekg(fpos);
-}
-
-int login(const User &user){
-	std::cout << "Welcome to the Libarary Control System." << std::endl
-		<< "Please login. " << std::endl << "(input exit to exit)" << std::endl;
-	str userName = {};
-	str passWord = {};
-	str exit = "exit";
-	do{
-		std::cout << "Username: ";
-		std::cin.getline(userName, STD_STR_LENGTH);
-		if (!strcmp(userName, exit)) return USER_EXIT;
-		std::cout << "Password: ";
-		std::cin.getline(passWord, STD_STR_LENGTH);
-		if (!strcmp(passWord, exit)) return USER_EXIT;
-	} while (strcmp(userName, user.username) || strcmp(passWord, user.password));//strcmp() returns 0 if they are equal
-	return ACCESS_GRANTED;
+	return 0;
 }
