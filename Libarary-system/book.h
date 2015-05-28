@@ -23,6 +23,7 @@ public:
 	//template<typename Type> bool find(Type target){
 
 	//}
+	Book& operator=(Book& book);
 	friend Book *sort(Book *bookArr, int arrSize, int order);
 	friend std::ofstream &operator<<(std::ofstream &fout, Book &book);
 	friend std::ostream &operator<<(std::ostream &out, Book &book);

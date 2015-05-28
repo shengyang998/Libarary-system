@@ -18,13 +18,13 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="menu.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="book.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="user.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="login_menu.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

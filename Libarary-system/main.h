@@ -13,7 +13,7 @@
 #define STD_STR_LENGTH 100
 
 #define CHANGE_UN_PW -2
-#define READ_FROM_FILE 1
+#define READ_FROM_BIN_FILE 1
 #define WRITE_TO_FILE 2
 #define INPUT_DATA 3
 #define SEARCH_SELECT 4

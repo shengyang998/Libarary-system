@@ -5,6 +5,7 @@
 int login(const User &user);
 int menu();
 int changeUNPW(User &user, std::ofstream &fout);
+int inputData(Book &book)
 
 	int Book::counter = 0;
 int main(){
@@ -34,47 +35,59 @@ int main(){
 		std::cout << "There are " << Book::counter << " books." << std::endl;
 
 		Book *pBook = new Book[Book::counter];
-
-		/* Main menu */
-		while (1){
-			switch (menu()){
-			case CHANGE_UN_PW:
-				system("cls");
-				if (changeUNPW(ysy, fout) == USER_EXIT){
+		if (pBook == nullptr) std::cerr << "Error, don't have enough menmory" << std::endl;
+		else{
+			/* Main menu */
+			while (1){
+				switch (menu()){
+				case CHANGE_UN_PW:
+					system("cls");
+					if (fin.is_open()) fin.close();
+					if (!fout.is_open()) fout.open("fout.bin", std::ios::app | std::ios::binary);
+					if (changeUNPW(ysy, fout) == USER_EXIT){
+						if (fin.is_open()) fin.close();
+						if (fout.is_open()) fout.close();
+						return USER_EXIT;
+					}
+					break;
+				case USER_EXIT:
+					std::cerr << "The system is goinng to EXIT now.";
 					if (fin.is_open()) fin.close();
 					if (fout.is_open()) fout.close();
 					return USER_EXIT;
-				}
-				break;
-			case USER_EXIT:
-				std::cerr << "The system is goinng to EXIT now.";
-				if (fin.is_open()) fin.close();
-				if (fout.is_open()) fout.close();
-				return USER_EXIT;
-				break;
-			case READ_FROM_FILE:
-				break;
-			case WRITE_TO_FILE:
-				break;
-			case INPUT_DATA:
-				break;
-			case SEARCH_SELECT:
+					break;
+				case READ_FROM_BIN_FILE:
+					for (int i = 0; i < Book::counter; i++){
+						pBook[i].binInput(fin);
+						fin.seekg(sizeof(Book), fin.cur);
+					}
+					break;
+				case WRITE_TO_FILE:
+					break;
+				case INPUT_DATA:
+					Book book;
+					inputData(book);
+					Book::counter++;
 
-				break;
-			case SORT_DATA:
-				//sort(book, 2, SMALL_TO_LARGE);
-				//std::cout << book[0] << std::endl << book[1];
-				//std::cin.get();
-				break;
-			case DELETE_SELECTED:
-				break;
-			case MODIFY_SELECTED:
-				break;
-			default:
-				break;
+					break;
+				case SEARCH_SELECT:
+
+					break;
+				case SORT_DATA:
+					//sort(book, 2, SMALL_TO_LARGE);
+					//std::cout << book[0] << std::endl << book[1];
+					//std::cin.get();
+					break;
+				case DELETE_SELECTED:
+					break;
+				case MODIFY_SELECTED:
+					break;
+				default:
+					break;
+				}
 			}
-			break;
 		}
+		break;
 	}
 	default:
 		std::cerr << "Unknow ERROR." << std::endl;

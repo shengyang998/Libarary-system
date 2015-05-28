@@ -80,7 +80,7 @@
   <ItemGroup>
     <ClCompile Include="book.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="login_menu.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,15 @@ Book::Book(str &name, str &author, str &isbn, double price, str &className, stoc
 	this->num = num;
 }
 
+Book& Book::operator=(Book& book){
+	strcpy_s(name, STD_STR_LENGTH, book.name);
+	strcpy_s(author, STD_STR_LENGTH, book.author);
+	strcpy_s(isbn, STD_STR_LENGTH, book.isbn);
+	strcpy_s(className, STD_STR_LENGTH, book.className);
+	price = book.price;
+	num = book.num;
+}
+
 Book *sort(Book *bookArr,int arrSize, int order){
 	Book *pMin = &bookArr[0];
 	Book *pMax = &bookArr[0];
@@ -48,22 +57,22 @@ bool Book::find(str& targetStr){
 }
 
 std::ofstream& Book::binOutput(std::ofstream &fout){
-	fout.write(name, sizeof(name));
-	fout.write(author, sizeof(author));
-	fout.write(className, sizeof(className));
-	fout.write(isbn, sizeof(isbn));
-	fout.write((char*)&price, sizeof(price));
-	//fout.write((char*)this, sizeof(Book));
+	//fout.write(name, sizeof(name));
+	//fout.write(author, sizeof(author));
+	//fout.write(className, sizeof(className));
+	//fout.write(isbn, sizeof(isbn));
+	//fout.write((char*)&price, sizeof(price));
+	fout.write((char*)this, sizeof(Book));
 	return fout;
 }
 
 std::ifstream& Book::binInput(std::ifstream &fin){
-	fin.read(name, sizeof(name));
-	fin.read(author, sizeof(author));
-	fin.read(className, sizeof(className));
-	fin.read(isbn, sizeof(isbn));
-	fin.read((char*)&price, sizeof(price));
-	//fout.write((char*)this, sizeof(Book));
+	//fin.read(name, sizeof(name));
+	//fin.read(author, sizeof(author));
+	//fin.read(className, sizeof(className));
+	//fin.read(isbn, sizeof(isbn));
+	//fin.read((char*)&price, sizeof(price));
+	fin.read((char*)this, sizeof(Book));
 	return fin;
 }
 
