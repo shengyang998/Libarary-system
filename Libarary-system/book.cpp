@@ -17,6 +17,7 @@ Book& Book::changeTo(str& name, str& author, str& isbn, double price, str& class
 	this->price = price;
 	strcpy_s(this->className, STD_STR_LENGTH, className);
 	this->num = num;
+	return *this;
 }
 
 Book& Book::operator=(Book& book){
@@ -96,10 +97,10 @@ std::ofstream &operator<<(std::ofstream &fout, Book &book){
 }
 
 std::ostream &operator<<(std::ostream &out, Book &book){
-	out << "The name is " << book.name << std::endl
-		<< "Author: "
-		<< "ISBN: " << book.isbn << std::endl
-		<< "Price: " << book.price << std::endl
+	out << "The name is " << book.name << "\t"
+		<< "Author: " << book.author << "\t"
+		<< "ISBN: " << book.isbn << "\t"
+		<< "Price: " << book.price << "\t"
 		<< "Stock number: " << book.num << std::endl;
 	return out;
 }

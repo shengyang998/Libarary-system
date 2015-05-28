@@ -75,14 +75,6 @@ int changeUNPW(User &user, fstream &fout){
 	}
 }
 
-template<typename T> T& arrcpy(T(&arr1), int length, T(&arr2)){
-	for (int i = 0; i < length; i++){
-		arr1[i] = arr2[i];
-	}
-	delete arr2;
-	arr2 = nullptr;
-	return arr1;
-}
 
 int inputData(Book &book){
 	str bookName, author, isbn, className;
@@ -113,3 +105,11 @@ int inputData(Book &book){
 	return 0;
 }
 
+int change(Book* book, int arrSize, int* seleted){
+	int i = 0;
+	for (; i < arrSize; i++){
+		if (seleted[i] == 1) break;
+	}
+	inputData(book[i]);
+	return 0;
+}

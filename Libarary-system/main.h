@@ -22,6 +22,7 @@
 #define MODIFY_SELECTED 7
 
 #define USER_EXIT -1
+#define LOW_MEMORY -100
 
 #define STAY_HERE 0
 #define ACCESS_GRANTED 0

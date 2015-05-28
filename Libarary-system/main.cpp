@@ -2,11 +2,34 @@
 #include"book.h"
 #include"user.h"
 
+template<typename T> T& arrmov(T(&arrDistance), int length, T(&arrSource)){
+	for (int i = 0; i < length; i++){
+		arrDistance[i] = arrSource[i];
+	}
+	delete arrSource;
+	arrSource = nullptr;
+	return arrDistance;
+}
+
+template<typename T> T* arrmovNoZero(T*arrDistance, int length, int*sel, T*arrSource){
+	for (int i = 0, j = 0; i < length; i++){
+		if (sel[i] != 1){
+			arrDistance[j] = arrSource[i];
+			j++;
+		}
+	}
+	delete arrSource;
+	arrSource = nullptr;
+	return arrDistance;
+}
+
+
 int login(const User &user);
 int menu();
 int changeUNPW(User &user, std::fstream &fout);
 int inputData(Book &book);
-template<typename T> T& arrcpy(T(&arr1), int length, T(&arr2));
+int change(Book* book,int arrSize, int* seleted);
+int analyze(str &);
 
 int Book::counter = 0;
 int main(){
@@ -43,8 +66,13 @@ int main(){
 		std::cout << "There are " << Book::counter << " books." << std::endl;
 
 		Book *pBook = new Book[Book::counter];
-		if (pBook == nullptr) std::cerr << "Error, don't have enough menmory" << std::endl;
+		if (pBook == nullptr) {
+			std::cerr << "Error, don't have enough menmory" << std::endl;
+			return LOW_MEMORY;
+		}
 		else{//new seccessfully
+			/* declare something useful */
+			int *pSelected; Book *newBook; int countHit = 0;
 			/* Main menu */
 			while (1){
 				switch (menu()){
@@ -94,40 +122,76 @@ int main(){
 					}
 					std::cin.ignore();
 					Book::counter += num;
-					Book *newBook = new Book[Book::counter];
-					arrcpy(newBook, Book::counter - num, pBook);
-					for (int i = Book::counter - num; i < Book::counter; i++){
-						inputData(newBook[i]);
+					newBook = new Book[Book::counter];
+					if (newBook == nullptr) {
+						std::cerr << "Error, don't have enough menmory" << std::endl;
+						return LOW_MEMORY;
 					}
-					pBook = newBook;
+					else{//new successfully
+						arrmov(newBook, Book::counter - num, pBook);
+						for (int i = Book::counter - num; i < Book::counter; i++){
+							inputData(newBook[i]);
+						}
+						pBook = newBook;
+					}
 					break;
 				case SEARCH_SELECT:
 					system("cls"); system("color 0b");
 					std::cout << "Please input what you want to search: ";
 					str target;
 					std::cin.getline(target, STD_STR_LENGTH);
-					int countHit = 0;
+					pSelected = new int[Book::counter];
+					for (int i = 0; i < Book::counter; i++) pSelected[i] = 0;
 					for (int i = 0; i < Book::counter; i++){
 						if (pBook[i].find(target) == true) {
 							std::cout << pBook[i];
+							pSelected[i] = 1;
 							countHit++;
 						}
 					}
 					std::cout << "There are " << countHit << " hitted in total.";
 					break;
 				case SORT_DATA:
-					//sort(book, 2, SMALL_TO_LARGE);
-					//std::cout << book[0] << std::endl << book[1];
-					//std::cin.get();
+					system("cls"); system("color 0b");
+					std::cout << "Sort from small to large or not? ";
+					str slORls;
+					std::cin.getline(slORls, STD_STR_LENGTH);
+					int flag;
+					if (analyze(slORls) == SMALL_TO_LARGE) flag = SMALL_TO_LARGE;
+					else flag = LARGE_TO_SMALL;
+					sort(pBook, Book::counter, flag);
+					std::cout << "Done. sort by price successfully.";
+					std::cin.get();
 					break;
 				case DELETE_SELECTED:
+					system("cls"); system("color 0b");
+					if (countHit == 0){
+						std::cerr << "Error. Nothing is selected." << std::endl;
+					}
+					else{
+						newBook = new Book[Book::counter - countHit];
+						arrmovNoZero(newBook, Book::counter - countHit, pSelected, pBook);
+					}
 					break;
 				case MODIFY_SELECTED:
+					system("cls"); system("color 0b");
+					if (countHit > 1){
+						std::cerr << "Error. More than one item have been chosen." << std::endl;
+					}
+					else {
+						change(pBook, Book::counter, pSelected);
+					}
 					break;
 				default:
 					break;
 				}
 			}
+			delete newBook;
+			newBook = nullptr;
+			delete pSelected;
+			pSelected = nullptr;
+			delete pBook;
+			pBook = nullptr;
 		}
 		break;
 	}

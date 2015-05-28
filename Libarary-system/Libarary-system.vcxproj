@@ -81,6 +81,7 @@
     <ClCompile Include="book.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="login_menu.cpp" />
+    <ClCompile Include="test.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
