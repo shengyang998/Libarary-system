@@ -1,9 +1,9 @@
 #include<fstream>
 #include"user.h"
 
-User::User(bool flag, std::ifstream &fin){
+User::User(bool flag, std::fstream &fio){
 	if (flag == 1){//open succeed
-		readUNPW(fin);
+		readUNPW(fio);
 	}
 	else{
 		str un, pw;
@@ -15,9 +15,15 @@ User::User(bool flag, std::ifstream &fin){
 		std::cin.getline(pw, sizeof(str));
 		strcpy_s(username, STD_STR_LENGTH, un);
 		strcpy_s(password, STD_STR_LENGTH, pw);
+		writeUNPW(fio);
 		std::cout << "Done. New user has been set." << std::endl;
 		std::cout << "Please don't forget to input the data firstly." << std::endl;
 	}
+}
+
+User::User(str& un, str& pw){
+	strcpy_s(username, STD_STR_LENGTH, un);
+	strcpy_s(password, STD_STR_LENGTH, pw);
 }
 
 char* User::encode(str &unpw){//run before write to file
@@ -43,7 +49,7 @@ void User::changeUNPW(str &un, str &pw){
 	strcpy_s(password, STD_STR_LENGTH, pw);
 }
 
-void User::writeUNPW(std::ofstream &fout){
+void User::writeUNPW(std::fstream &fout){
 	auto fpos = fout.cur;
 	fout.seekp(0, fout.beg);
 	encode(username);
@@ -53,7 +59,7 @@ void User::writeUNPW(std::ofstream &fout){
 	fout.seekp(0, fpos);
 }
 
-void User::readUNPW(std::ifstream &fin){
+void User::readUNPW(std::fstream &fin){
 	auto fpos = fin.cur;
 	fin.seekg(0, fin.beg);
 	fin.read(username, sizeof(str));

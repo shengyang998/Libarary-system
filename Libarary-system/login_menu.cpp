@@ -15,7 +15,7 @@ int menu(){
 		<< "6.Delete the Selected one" << endl
 		<< "7.Modify the Selected one" << endl;
 	int choice;
-	while (!(cin >> choice) || (choice < -2 || choice > 7)){
+	while (!(cin >> choice) || (choice < -2 || choice > 8)){
 		cin.clear();
 		cin.ignore(100, '\n');
 		cout << "Error. Please choose again:";
@@ -25,29 +25,28 @@ int menu(){
 	case -1:
 		return CHANGE_UN_PW;
 	case 0:
-		system("color cf");
 		return USER_EXIT;
-	case 1:
-		return 1;
-	case 2:
-		return 2;
-	case 3:
-		return 3;
-	case 4:
-		system("cls");
-		system("color 0b");
-		return 4;
-	case 5:
-		return 5;
-	case 6:
-		return 6;
+	case READ_FROM_BIN_FILE:
+		return READ_FROM_BIN_FILE;
+	case WRITE_TO_FILE:
+		return WRITE_TO_FILE;
+	case INPUT_DATA:
+		return INPUT_DATA;
+	case SEARCH_SELECT:
+		return SEARCH_SELECT;
+	case SORT_DATA:
+		return SORT_DATA;
+	case DELETE_SELECTED:
+		return DELETE_SELECTED;
+	case MODIFY_SELECTED:
+		return MODIFY_SELECTED;
 	default:
 		cerr<<"Unknown choice at menu.";
 	}
 	return 0;
 }
 
-int changeUNPW(User &user, ofstream &fout){
+int changeUNPW(User &user, fstream &fout){
 	str un, pw;
 	std::cout << "Please input your new username: ";
 	std::cin.getline(un, STD_STR_LENGTH);
@@ -76,6 +75,13 @@ int changeUNPW(User &user, ofstream &fout){
 	}
 }
 
+template<typename T> T& arrcpy(T(&arr1), int length, T(&arr2)){
+	for (int i = 0; i < length; i++){
+		arr1[i] = arr2[i];
+	}
+	return arr1;
+}
+
 int inputData(Book &book){
 	str bookName, author, isbn, className;
 	stockNum num;
@@ -101,7 +107,7 @@ int inputData(Book &book){
 		cerr << "Error, please input the stock number of this book: ";
 	}
 	cin.ignore();
-	Book tBook(bookName, author, isbn, price, className, num);
-	book = tBook;
+	book.changeTo(bookName, author, isbn, price, className, num);
 	return 0;
 }
+

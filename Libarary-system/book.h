@@ -17,9 +17,10 @@ protected:
 public:
 	Book(){}
 	Book(str &name, str &author, str &isbn, double price, str &className, stockNum num);
-	std::ofstream& binOutput(std::ofstream &fout);
-	std::ifstream& binInput(std::ifstream &fin);
+	std::fstream& binOutput(std::fstream &fout);
+	std::fstream& binInput(std::fstream &fin);
 	bool find(str &targetStr);
+	Book& changeTo(str& name, str& author, str& isbn, double price, str& className, stockNum num);
 	//template<typename Type> bool find(Type target){
 
 	//}

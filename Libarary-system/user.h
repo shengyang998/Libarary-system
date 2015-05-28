@@ -7,12 +7,13 @@ class User{
 	str password;
 	//str lastLogin;
 public:
-	User(bool, std::ifstream&);
+	User(bool, std::fstream&);
+	User(str &un, str &pw);
 	char *encode(str &unpw);
 	char *decode(str &unpw);
-	void readUNPW(std::ifstream &fin);
+	void readUNPW(std::fstream &fin);
 	void changeUNPW(str &un, str &pw);
-	void writeUNPW(std::ofstream &fout);
+	void writeUNPW(std::fstream &fout);
 	friend int login(const User &user);
 	str &getUN(){
 		return username;

@@ -10,6 +10,15 @@ Book::Book(str &name, str &author, str &isbn, double price, str &className, stoc
 	this->num = num;
 }
 
+Book& Book::changeTo(str& name, str& author, str& isbn, double price, str& className, stockNum num){
+	strcpy_s(this->isbn, STD_STR_LENGTH, isbn);
+	strcpy_s(this->author, STD_STR_LENGTH, author);
+	strcpy_s(this->name, STD_STR_LENGTH, name);
+	this->price = price;
+	strcpy_s(this->className, STD_STR_LENGTH, className);
+	this->num = num;
+}
+
 Book& Book::operator=(Book& book){
 	strcpy_s(name, STD_STR_LENGTH, book.name);
 	strcpy_s(author, STD_STR_LENGTH, book.author);
@@ -17,6 +26,7 @@ Book& Book::operator=(Book& book){
 	strcpy_s(className, STD_STR_LENGTH, book.className);
 	price = book.price;
 	num = book.num;
+	return book;
 }
 
 Book *sort(Book *bookArr,int arrSize, int order){
@@ -56,7 +66,7 @@ bool Book::find(str& targetStr){
 	else return false;
 }
 
-std::ofstream& Book::binOutput(std::ofstream &fout){
+std::fstream& Book::binOutput(std::fstream &fout){
 	//fout.write(name, sizeof(name));
 	//fout.write(author, sizeof(author));
 	//fout.write(className, sizeof(className));
@@ -66,7 +76,7 @@ std::ofstream& Book::binOutput(std::ofstream &fout){
 	return fout;
 }
 
-std::ifstream& Book::binInput(std::ifstream &fin){
+std::fstream& Book::binInput(std::fstream &fin){
 	//fin.read(name, sizeof(name));
 	//fin.read(author, sizeof(author));
 	//fin.read(className, sizeof(className));
