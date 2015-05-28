@@ -41,13 +41,38 @@ Book *sort(Book *bookArr,int arrSize, int order){
 	return SORT_SUCCESS;
 }
 
+bool Book::find(str& targetStr){
+	if ((!strcmp(name, targetStr)) || (!strcmp(author, targetStr)) || (!strcmp(isbn, targetStr)) || (!strcmp(className, targetStr)))
+		return true;
+	else return false;
+}
+
 std::ofstream& Book::binOutput(std::ofstream &fout){
 	fout.write(name, sizeof(name));
 	fout.write(author, sizeof(author));
 	fout.write(className, sizeof(className));
 	fout.write(isbn, sizeof(isbn));
 	fout.write((char*)&price, sizeof(price));
-	fout.write((char*)this, sizeof(Book));
+	//fout.write((char*)this, sizeof(Book));
+	return fout;
+}
+
+std::ifstream& Book::binInput(std::ifstream &fin){
+	fin.read(name, sizeof(name));
+	fin.read(author, sizeof(author));
+	fin.read(className, sizeof(className));
+	fin.read(isbn, sizeof(isbn));
+	fin.read((char*)&price, sizeof(price));
+	//fout.write((char*)this, sizeof(Book));
+	return fin;
+}
+
+std::ofstream &operator<<(std::ofstream &fout, Book &book){
+	fout << "The name is " << book.name << std::endl
+		<< "Author: "
+		<< "ISBN: " << book.isbn << std::endl
+		<< "Price: " << book.price << std::endl
+		<< "Stock number: " << book.num << std::endl;
 	return fout;
 }
 

@@ -15,9 +15,16 @@ protected:
 	stockNum num;
 
 public:
+	Book(){}
 	Book(str &name, str &author, str &isbn, double price, str &className, stockNum num);
-	std::ofstream& Book::binOutput(std::ofstream &fout);
+	std::ofstream& binOutput(std::ofstream &fout);
+	std::ifstream& binInput(std::ifstream &fin);
+	bool find(str &targetStr);
+	//template<typename Type> bool find(Type target){
+
+	//}
 	friend Book *sort(Book *bookArr, int arrSize, int order);
+	friend std::ofstream &operator<<(std::ofstream &fout, Book &book);
 	friend std::ostream &operator<<(std::ostream &out, Book &book);
 	friend std::istream &operator>>(std::istream &in, Book &book);
 };

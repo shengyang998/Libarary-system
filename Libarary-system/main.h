@@ -23,6 +23,7 @@
 
 #define USER_EXIT -1
 
+#define STAY_HERE 0
 #define ACCESS_GRANTED 0
 
 #define SORT_SUCCESS 0

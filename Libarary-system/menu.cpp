@@ -1,4 +1,5 @@
 #include"main.h"
+#include"user.h"
 using namespace std;
 
 int menu(){
@@ -43,4 +44,33 @@ int menu(){
 		cerr<<"Unknown choice at menu.";
 	}
 	return 0;
+}
+
+int changeUNPW(User &user, ofstream &fout){
+	str un, pw;
+	std::cout << "Please input your new username: ";
+	std::cin.getline(un, STD_STR_LENGTH);
+	std::cout << "Please input your new password: ";
+	std::cin.getline(pw, STD_STR_LENGTH);
+	user.changeUNPW(un, pw);
+	user.writeUNPW(fout);
+	std::cout << "Success! New User set!" << std::endl
+		<< "Do you want to restart now?[Y/N] ";
+	char restart;
+	while (!(std::cin >> restart) || (restart != 'y'&&restart != 'Y'&&restart != 'n'&&restart != 'N')){
+		std::cin.clear();
+		std::cin.ignore(STD_STR_LENGTH, '\n');
+		std::cout << "Error, please retry.[Y/N] ";
+	}
+	switch (restart){
+	case 'y':
+	case 'Y':
+		return USER_EXIT;
+		break;
+	case 'n':
+	case'N':
+	default:
+		return STAY_HERE;
+		break;
+	}
 }

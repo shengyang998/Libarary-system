@@ -13,8 +13,10 @@ User::User(bool flag, std::ifstream &fin){
 		std::cin.getline(un, sizeof(str));
 		std::cout << "PassWord: ";
 		std::cin.getline(pw, sizeof(str));
+		strcpy_s(username, STD_STR_LENGTH, un);
+		strcpy_s(password, STD_STR_LENGTH, pw);
 		std::cout << "Done. New user has been set." << std::endl;
-		std::cout << "Please don't forget to input the data first." << std::endl;
+		std::cout << "Please don't forget to input the data firstly." << std::endl;
 	}
 }
 
