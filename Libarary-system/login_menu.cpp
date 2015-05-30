@@ -4,6 +4,7 @@
 using namespace std;
 
 int login(const User &user){
+	system("cls");
 	std::cout << "Welcome to the Libarary Control System." << std::endl
 		<< "Please login. " << std::endl << "(input exit to exit)" << std::endl;
 	str userName = {};
@@ -13,7 +14,7 @@ int login(const User &user){
 	do{
 		if (++count > 1){
 			std::cout << "Your username or password are invaild." << std::endl
-				<< " Please check your input and retry:";
+				<< "Please check your input and retry:" << std::endl;
 		}
 		std::cout << "Username: ";
 		std::cin.getline(userName, STD_STR_LENGTH);
@@ -26,7 +27,7 @@ int login(const User &user){
 }
 
 int menu(){
-	cout << "What do you want to do? Please select one and press Enter to continue." << endl
+	cout << "What do you want to do? Please select one and press Enter to continue." << endl << endl
 		<< "-1.Change your username and password" << endl
 		<< "0.EXIT" << endl
 		<< "1.Read Data from file" << endl
@@ -35,7 +36,7 @@ int menu(){
 		<< "4.Search & Select" << endl
 		<< "5.Sort " << endl
 		<< "6.Delete the Selected one" << endl
-		<< "7.Modify the Selected one" << endl;
+		<< "7.Modify the Selected one" << endl << endl;
 	int choice;
 	while (!(cin >> choice) || (choice < -2 || choice > 8)){
 		cin.clear();

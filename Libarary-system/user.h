@@ -9,8 +9,8 @@ class User{
 public:
 	User(std::fstream&);
 	User(str &un, str &pw);
-	char *encode(str &unpw);
-	char *decode(str &unpw);
+	friend char *encode(str &unpw);
+	friend char *decode(str &unpw);
 	int readUNPW(std::fstream &fin);
 	int changeUNPW(str &un, str &pw);
 	int writeUNPW(std::fstream &fout);

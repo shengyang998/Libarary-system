@@ -8,7 +8,7 @@ User::User(std::fstream &fio){
 	else{
 		str un, pw;
 		std::cout << "It seems that this is your first time to use the sysem." << std::endl
-			<< "Please set your own username and password firstly." << std::endl
+			<< "Please set your own username and password firstly." << std::endl << std::endl
 			<< "Username: ";
 		std::cin.getline(un, sizeof(str));
 		std::cout << "Password: ";
@@ -26,7 +26,7 @@ User::User(str& un, str& pw){
 	strcpy_s(password, STD_STR_LENGTH, pw);
 }
 
-char* User::encode(str &unpw){//run before write to file
+char* encode(str &unpw){//run before write to file
 	int strlength = std::strlen(unpw);
 	for (int i = 0; i < strlength; i++){
 		if (unpw[i] == '\0') continue;
@@ -35,7 +35,7 @@ char* User::encode(str &unpw){//run before write to file
 	return unpw;
 }
 
-char* User::decode(str &unpw){//run before using the str
+char* decode(str &unpw){//run before using the str
 	int strlength = std::strlen(unpw);
 	for (int i = 0; i < strlength; i++){
 		if (unpw[i] == '\0') continue;
@@ -60,6 +60,8 @@ int User::writeUNPW(std::fstream &fout){
 	encode(password);
 	fout.write((char*)&username, sizeof(str));
 	fout.write((char*)&password, sizeof(str));
+	encode(username);
+	encode(password);
 	fout.seekp(0, fpos);
 	return 0;
 }
