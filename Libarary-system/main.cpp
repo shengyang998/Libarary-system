@@ -18,8 +18,8 @@ template<typename T> T* arrmovNoZero(T*arrDistance, int length, int*sel, T*arrSo
 			j++;
 		}
 	}
-	delete arrSource;
-	arrSource = nullptr;
+	delete arrSource; delete sel;
+	arrSource = arrDistance; sel = nullptr;
 	return arrDistance;
 }
 
@@ -78,22 +78,24 @@ int main(){
 				fio.seekg(0, fio.beg);
 				fio.read((char*)&Book::counter, sizeof(LL));
 				std::cout << "There are " << Book::counter << " books." << std::endl;
-				pBook = new Book[Book::counter];
-				if (pBook == nullptr) {
-					std::cerr << "Error, don't have enough menmory" << std::endl;
-					std::cout << "Press Enter to continue.";
-					std::cin.get();
-					myExit();
-					return LOW_MEMORY;
+				if (Book::counter > 0){
+					pBook = new Book[Book::counter];
+					if (pBook == nullptr) {
+						std::cerr << "Error, don't have enough menmory" << std::endl;
+						std::cout << "Press Enter to continue.";
+						std::cin.get();
+						myExit();
+						return LOW_MEMORY;
+					}
+					if (!fio.is_open()) fio.open("data.bin", std::ios::in | std::ios::binary);
+					fio.seekg(sizeof(LL), fio.beg);
+					for (int i = 0; i < Book::counter; i++){
+						pBook[i].binInput(fio);
+						//fin.seekg((i + 1)*sizeof(Book), fin.beg + sizeof(LL));
+					}
+					std::cout << "Done. Input successfully." << std::endl;
+					if (fio.is_open()) fio.close();
 				}
-				if (!fio.is_open()) fio.open("data.bin", std::ios::in | std::ios::binary);
-				fio.seekg(sizeof(LL), fio.beg);
-				for (int i = 0; i < Book::counter; i++){
-					pBook[i].binInput(fio);
-					//fin.seekg((i + 1)*sizeof(Book), fin.beg + sizeof(LL));
-				}
-				std::cout << "Done. Input successfully." << std::endl;
-				if (fio.is_open()) fio.close();
 				std::cout << "Press Enter to continue.";
 				std::cin.get();
 				break;
@@ -124,8 +126,6 @@ int main(){
 					std::cin.clear();
 					std::cin.ignore(100, '\n');
 					std::cerr << "Error input. Please retry: ";
-					std::cout << "Press Enter to continue.";
-					std::cin.get();
 				}
 				std::cin.ignore(100, '\n');
 				Book::counter += num;
@@ -164,7 +164,7 @@ int main(){
 							countHit++;
 						}
 					}
-					std::cout << "There are " << countHit << " hitted in total.";
+					std::cout << "There are " << countHit << " hitted in total." << std::endl;
 				}
 				std::cout << "Press Enter to continue.";
 				std::cin.get();
@@ -198,7 +198,9 @@ int main(){
 				}
 				else{
 					newBook = new Book[Book::counter - countHit];
-					arrmovNoZero(newBook, Book::counter - countHit, pSelected, pBook);
+					pBook = arrmovNoZero(newBook, Book::counter, pSelected, pBook);
+					Book::counter = Book::counter - countHit;
+					pSelected = nullptr;
 				}
 				break;
 			case MODIFY_SELECTED:

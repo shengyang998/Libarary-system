@@ -108,7 +108,7 @@ int inputData(Book &book){
 	str bookName, author, isbn, className;
 	stockNum num;
 	double price;
-	cout << "Please input bookName: ";
+	cout << "Please input book name: ";
 	cin.getline(bookName, STD_STR_LENGTH);
 	cout << "Please input author: ";
 	cin.getline(author, STD_STR_LENGTH);
@@ -117,18 +117,19 @@ int inputData(Book &book){
 	cout << "Please input price: ";
 	while (!(cin >> price)){
 		cin.clear();
-		cin.ignore();
+		cin.ignore(100, '\n');
 		cerr << "Error, please input the price of this book: ";
 	}
-	cout << "Please input 图书分类名: ";
+	cin.ignore(100, '\n');
+	cout << "Please input class name (图书分类名): ";
 	cin.getline(className, STD_STR_LENGTH);
 	cout << "Please input the stock number: ";
 	while (!(cin >> num)){
 		cin.clear();
-		cin.ignore();
+		cin.ignore(100, '\n');
 		cerr << "Error, please input the stock number of this book: ";
 	}
-	cin.ignore();
+	cin.ignore(100, '\n');
 	book.changeTo(bookName, author, isbn, price, className, num);
 	return 0;
 }
