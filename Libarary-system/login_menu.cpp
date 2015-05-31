@@ -5,8 +5,9 @@ using namespace std;
 
 int login(const User &user){
 	system("cls");
-	std::cout << "Welcome to the Libarary Control System." << std::endl
-		<< "Please login. " << std::endl << "(input exit to exit)" << std::endl;
+	std::cout << "********Welcome to the Libarary Control System.********" << std::endl
+		<< "Please login. " << std::endl 
+		<< "(input exit to exit)" << std::endl;
 	str userName = {};
 	str passWord = {};
 	str exit = "exit";
@@ -27,6 +28,7 @@ int login(const User &user){
 }
 
 int menu(){
+	system("cls");
 	cout << "What do you want to do? Please select one and press Enter to continue." << endl << endl
 		<< "-1.Change your username and password" << endl
 		<< "0.EXIT" << endl
@@ -36,9 +38,11 @@ int menu(){
 		<< "4.Search & Select" << endl
 		<< "5.Sort " << endl
 		<< "6.Delete the Selected one" << endl
-		<< "7.Modify the Selected one" << endl << endl;
+		<< "7.Modify the Selected one" << endl
+		<< "8.Print" << endl
+		<< endl;
 	int choice;
-	while (!(cin >> choice) || (choice < -2 || choice > 8)){
+	while (!(cin >> choice) || (choice < -1 || choice > 8)){
 		cin.clear();
 		cin.ignore(100, '\n');
 		cout << "Error. Please choose again:";
@@ -63,8 +67,10 @@ int menu(){
 		return DELETE_SELECTED;
 	case MODIFY_SELECTED:
 		return MODIFY_SELECTED;
+	case PRINT_AT_SCREEN:
+		return PRINT_AT_SCREEN;
 	default:
-		cerr<<"Unknown choice at menu.";
+		cerr<<"Unknown choice at menu." << endl;
 	}
 	return 0;
 }
@@ -102,7 +108,7 @@ int inputData(Book &book){
 	str bookName, author, isbn, className;
 	stockNum num;
 	double price;
-	cout << "Please input bookName: ";
+	cout << "Please input Book Name: ";
 	cin.getline(bookName, STD_STR_LENGTH);
 	cout << "Please input author: ";
 	cin.getline(author, STD_STR_LENGTH);
@@ -111,18 +117,19 @@ int inputData(Book &book){
 	cout << "Please input price: ";
 	while (!(cin >> price)){
 		cin.clear();
-		cin.ignore();
+		cin.ignore(100,'\n');
 		cerr << "Error, please input the price of this book: ";
 	}
-	cout << "Please input 图书分类名: ";
+	cin.ignore(100, '\n');
+	cout << "Please input Class Name(图书分类名): ";
 	cin.getline(className, STD_STR_LENGTH);
 	cout << "Please input the stock number: ";
 	while (!(cin >> num)){
 		cin.clear();
-		cin.ignore();
+		cin.ignore(100, '\n');
 		cerr << "Error, please input the stock number of this book: ";
 	}
-	cin.ignore();
+	cin.ignore(100,'\n');
 	book.changeTo(bookName, author, isbn, price, className, num);
 	return 0;
 }

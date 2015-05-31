@@ -101,6 +101,7 @@ std::ostream &operator<<(std::ostream &out, Book &book){
 		<< "Author: " << book.author << "\t"
 		<< "ISBN: " << book.isbn << "\t"
 		<< "Price: " << book.price << "\t"
+		<< "Class Name: " << book.className << "\t"
 		<< "Stock number: " << book.num << std::endl;
 	return out;
 }

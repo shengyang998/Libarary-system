@@ -20,10 +20,12 @@
 #define SORT_DATA 5
 #define DELETE_SELECTED 6
 #define MODIFY_SELECTED 7
+#define PRINT_AT_SCREEN 8
 
 #define USER_EXIT -1
 #define LOW_MEMORY -100
 #define ERROR_FILE_IS_EMPTY -191
+#define FILE_OPEN_FAILED -181
 
 #define STAY_HERE 0
 #define ACCESS_GRANTED 0

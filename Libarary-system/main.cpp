@@ -23,7 +23,6 @@ template<typename T> T* arrmovNoZero(T*arrDistance, int length, int*sel, T*arrSo
 	return arrDistance;
 }
 
-
 int login(const User &user);
 int menu();
 int changeUNPW(User &user, std::fstream &fout);
@@ -44,35 +43,30 @@ int main(){
 
 	/* Init the Username and Password */
 	fio.open("UNPW.bin", std::ios::in|std::ios::out|std::ios::binary);
-	User ysy(fio);
-	fio.close();
-	
-	/* Login */
-	switch (login(ysy)){
-	case USER_EXIT:
-		std::cerr << "Login failed: USER_EXIT" << std::endl;
-		break;
-	case ACCESS_GRANTED:{
-		system("cls");
-		std::cout << "Wlocome back " << ysy.getUN() << "!" << std::endl;
-		//<< "Notice:Your last login is at " << ysy.getLastLogin()
-		//<< "\n//* This should be the date read from file *//" << std::endl;
-
-		/* Init the data */
-		fio.open("data.bin", std::ios::app | std::ios::out | std::ios::binary);
-		fio.seekg(0, fio.beg);
-		fio.read((char*)&Book::counter, sizeof(LL));
+	if (!fio.is_open()) return FILE_OPEN_FAILED;
+	else{
+		User ysy(fio);
 		fio.close();
-		std::cout << "There are " << Book::counter << " books." << std::endl;
 
-		Book *pBook = new Book[Book::counter];
-		if (pBook == nullptr) {
-			std::cerr << "Error, don't have enough menmory" << std::endl;
-			return LOW_MEMORY;
-		}
-		else{//new seccessfully
+		/* Login */
+		switch (login(ysy)){
+		case USER_EXIT:
+			system("cls"); system("color ca");
+			std::cout << std::endl << std::endl << std::endl;
+			std::cerr << "Login failed: USER_EXIT" << std::endl;
+			//std::cout << "Press Enter to exit." << std::endl;
+			//std::cin.get();
+			break;
+		case ACCESS_GRANTED:{
+			system("cls");
+			std::cout << "Wlocome back " << ysy.getUN() << "!" << std::endl;
+			//<< "Notice:Your last login is at " << ysy.getLastLogin()
+			//<< "\n//* This should be the date read from file *//" << std::endl;
+
+			/* Init the data */
+
 			/* declare something useful */
-			int *pSelected; Book *newBook; int countHit = 0;
+			int *pSelected = nullptr; Book *newBook = nullptr; Book *pBook = nullptr; int countHit = 0;
 			/* Main menu */
 			while (1){
 				switch (menu()){
@@ -81,16 +75,33 @@ int main(){
 					if (!fio.is_open()) fio.open("UNPW.bin", std::ios::out | std::ios::binary);
 					if (changeUNPW(ysy, fio) == USER_EXIT){
 						fio.close();
+						std::cerr << "The system is goinng to EXIT now.";
+						std::cout << "Press Enter to continue.";
+						std::cin.get();
 						return USER_EXIT;
-					}else
+					}
+					else
 						break;
 				case USER_EXIT:
-					system("cls"); system("color 0c");
+					system("cls");
 					std::cerr << "The system is goinng to EXIT now.";
+					std::cout << "Press Enter to continue.";
+					std::cin.get();
 					return USER_EXIT;
 					break;
 				case READ_FROM_BIN_FILE:
-					system("cls"); system("color 0f");
+					system("cls");
+					fio.open("data.bin", std::ios::in | std::ios::binary);
+					fio.seekg(0, fio.beg);
+					fio.read((char*)&Book::counter, sizeof(LL));
+					std::cout << "There are " << Book::counter << " books." << std::endl;
+					pBook = new Book[Book::counter];
+					if (pBook == nullptr) {
+						std::cerr << "Error, don't have enough menmory" << std::endl;
+						std::cout << "Press Enter to continue.";
+						std::cin.get();
+						return LOW_MEMORY;
+					}
 					if (!fio.is_open()) fio.open("data.bin", std::ios::in | std::ios::binary);
 					fio.seekg(2 * sizeof(str) + sizeof(LL), fio.beg);
 					for (int i = 0; i < Book::counter; i++){
@@ -98,33 +109,45 @@ int main(){
 						//fin.seekg((i + 1)*sizeof(Book), fin.beg + sizeof(LL));
 					}
 					std::cout << "Done. Input successfully." << std::endl;
-					fio.close();
+					if (fio.is_open()) fio.close();
+					std::cout << "Press Enter to continue.";
+					std::cin.get();
 					break;
 				case WRITE_TO_FILE:
-					system("cls"); system("color 0f");
-					if (!fio.is_open()) fio.open("fout.bin", std::ios::out | std::ios::binary);
-					fio.write((char*)&Book::counter, sizeof(LL));
-					for (int i = 0; i < Book::counter; i++){
-						pBook[i].binOutput(fio);
-						//fout.seekp((i + 1)*sizeof(Book), fin.beg + sizeof(LL));
+					system("cls");
+					if (pBook == nullptr)
+						std::cerr << "Error. There is no books." << std::endl;
+					else{
+						if (!fio.is_open()) fio.open("fout.bin", std::ios::out | std::ios::binary);
+						fio.write((char*)&Book::counter, sizeof(LL));
+						for (int i = 0; i < Book::counter; i++){
+							pBook[i].binOutput(fio);
+							//fout.seekp((i + 1)*sizeof(Book), fin.beg + sizeof(LL));
+						}
+						std::cout << "Done. Output successfully." << std::endl;
+						fio.close();
+						std::cout << "Press Enter to continue.";
+						std::cin.get();
 					}
-					std::cout << "Done. Output successfully." << std::endl;
-					fio.close();
 					break;
 				case INPUT_DATA:
-					system("cls"); system("color 0d");
+					system("cls");
 					std::cout << "Please input the number of books that you want to input: ";
 					int num;
 					while (!(std::cin >> num)){
 						std::cin.clear();
-						std::cin.ignore();
+						std::cin.ignore(100, '\n');
 						std::cerr << "Error input. Please retry: ";
+						std::cout << "Press Enter to continue.";
+						std::cin.get();
 					}
-					std::cin.ignore();
+					std::cin.ignore(100, '\n');
 					Book::counter += num;
 					newBook = new Book[Book::counter];
 					if (newBook == nullptr) {
 						std::cerr << "Error, don't have enough menmory" << std::endl;
+						std::cout << "Press Enter to continue.";
+						std::cin.get();
 						return LOW_MEMORY;
 					}
 					else{//new successfully
@@ -136,7 +159,7 @@ int main(){
 					}
 					break;
 				case SEARCH_SELECT:
-					system("cls"); system("color 0b");
+					system("cls");
 					std::cout << "Please input what you want to search: ";
 					str target;
 					std::cin.getline(target, STD_STR_LENGTH);
@@ -150,9 +173,11 @@ int main(){
 						}
 					}
 					std::cout << "There are " << countHit << " hitted in total.";
+					std::cout << "Press Enter to continue.";
+					std::cin.get();
 					break;
 				case SORT_DATA:
-					system("cls"); system("color 0b");
+					system("cls");
 					std::cout << "Sort from small to large or not? ";
 					str slORls;
 					std::cin.getline(slORls, STD_STR_LENGTH);
@@ -161,12 +186,15 @@ int main(){
 					else flag = LARGE_TO_SMALL;
 					sort(pBook, Book::counter, flag);
 					std::cout << "Done. sort by price successfully.";
+					std::cout << "Press Enter to continue.";
 					std::cin.get();
 					break;
 				case DELETE_SELECTED:
-					system("cls"); system("color 0b");
+					system("cls");
 					if (countHit == 0){
 						std::cerr << "Error. Nothing is selected." << std::endl;
+						std::cout << "Press Enter to continue.";
+						std::cin.get();
 					}
 					else{
 						newBook = new Book[Book::counter - countHit];
@@ -174,13 +202,21 @@ int main(){
 					}
 					break;
 				case MODIFY_SELECTED:
-					system("cls"); system("color 0b");
+					system("cls");
 					if (countHit > 1){
 						std::cerr << "Error. More than one item have been chosen." << std::endl;
+						std::cout << "Press Enter to continue.";
+						std::cin.get();
 					}
 					else {
 						change(pBook, Book::counter, pSelected);
 					}
+					break;
+				case PRINT_AT_SCREEN:
+					for (int i = 0; i < Book::counter; i++)
+						std::cout << pBook[i] << std::endl;
+					std::cout << "Press Enter to continue.";
+					std::cin.get();
 					break;
 				default:
 					break;
@@ -192,14 +228,14 @@ int main(){
 			pSelected = nullptr;
 			delete[] pBook;
 			pBook = nullptr;
+			break;
 		}
-		break;
-	}
-	default:
-		std::cerr << "Unknow ERROR." << std::endl;
-		break;
-	}
+		default:
+			std::cerr << "Unknow ERROR." << std::endl;
+			break;
+		}
 
-	if (fio.is_open()) fio.close();
-	return 0;
+		if (fio.is_open()) fio.close();
+		return 0;
+	}
 }
