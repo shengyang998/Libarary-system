@@ -103,7 +103,7 @@ int main(){
 						return LOW_MEMORY;
 					}
 					if (!fio.is_open()) fio.open("data.bin", std::ios::in | std::ios::binary);
-					fio.seekg(2 * sizeof(str) + sizeof(LL), fio.beg);
+					fio.seekg(sizeof(LL), fio.beg);
 					for (int i = 0; i < Book::counter; i++){
 						pBook[i].binInput(fio);
 						//fin.seekg((i + 1)*sizeof(Book), fin.beg + sizeof(LL));
@@ -185,7 +185,8 @@ int main(){
 					if (analyze(slORls) == SMALL_TO_LARGE) flag = SMALL_TO_LARGE;
 					else flag = LARGE_TO_SMALL;
 					sort(pBook, Book::counter, flag);
-					std::cout << "Done. sort by price successfully.";
+					if (flag == SMALL_TO_LARGE) std::cout << "Done. Sort by price successfully, SMALL_TO_LARGE";
+					else std::cout << "Done. Sort by price successfully, LARGE_TO_SMALL";
 					std::cout << "Press Enter to continue.";
 					std::cin.get();
 					break;

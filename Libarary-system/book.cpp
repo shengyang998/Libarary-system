@@ -67,16 +67,6 @@ bool Book::find(str& targetStr){
 	else return false;
 }
 
-std::fstream& Book::binOutput(std::fstream &fout){
-	//fout.write(name, sizeof(name));
-	//fout.write(author, sizeof(author));
-	//fout.write(className, sizeof(className));
-	//fout.write(isbn, sizeof(isbn));
-	//fout.write((char*)&price, sizeof(price));
-	fout.write((char*)this, sizeof(Book));
-	return fout;
-}
-
 std::fstream& Book::binInput(std::fstream &fin){
 	//fin.read(name, sizeof(name));
 	//fin.read(author, sizeof(author));
