@@ -6,7 +6,6 @@
 class Book{
 public:
 	static int counter;
-
 protected:
 	str name;
 	str author;
@@ -14,7 +13,6 @@ protected:
 	double price;
 	str className;//className in lib
 	stockNum num;
-
 public:
 	Book(){}
 	Book(str &name, str &author, str &isbn, double price, str &className, stockNum num);
@@ -22,9 +20,6 @@ public:
 	std::fstream& binInput(std::fstream &fin);
 	bool find(str &targetStr);
 	Book& changeTo(str& name, str& author, str& isbn, double price, str& className, stockNum num);
-	//template<typename Type> bool find(Type target){
-
-	//}
 	Book& operator=(Book& book);
 	friend Book *sort(Book *bookArr, int arrSize, int order);
 	friend std::ofstream &operator<<(std::ofstream &fout, Book &book);

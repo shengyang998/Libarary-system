@@ -73,7 +73,7 @@ int main(){
 				return USER_EXIT;
 				break;
 			case READ_FROM_BIN_FILE:
-				system("cls"); system("color 03");
+				system("cls"); system("color 0b");
 				fio.open("data.bin", std::ios::in | std::ios::binary);
 				fio.seekg(0, fio.beg);
 				fio.read((char*)&Book::counter, sizeof(LL));
@@ -98,9 +98,11 @@ int main(){
 				std::cin.get();
 				break;
 			case WRITE_TO_FILE:
-				system("cls"); system("color 03");
-				if (pBook == nullptr)
-					std::cerr << "Error. There is no books." << std::endl;
+				system("cls"); system("color 0b");
+				if (pBook == nullptr){
+					std::cout << "There is no books." << std::endl
+						<< "Please input books first." << std::endl;
+				}
 				else{
 					if (!fio.is_open()) fio.open("fout.bin", std::ios::out | std::ios::binary);
 					fio.write((char*)&Book::counter, sizeof(LL));
@@ -110,12 +112,12 @@ int main(){
 					}
 					std::cout << "Done. Output successfully." << std::endl;
 					fio.close();
-					std::cout << "Press Enter to continue.";
-					std::cin.get();
 				}
+				std::cout << "Press Enter to continue.";
+				std::cin.get();
 				break;
 			case INPUT_DATA:
-				system("cls"); system("color 03");
+				system("cls"); system("color 0b");
 				std::cout << "Please input the number of books that you want to input: ";
 				int num;
 				while (!(std::cin >> num)){
@@ -144,39 +146,51 @@ int main(){
 				}
 				break;
 			case SEARCH_SELECT:
-				system("cls"); system("color 03");
-				std::cout << "Please input what you want to search: ";
-				str target;
-				std::cin.getline(target, STD_STR_LENGTH);
-				pSelected = new int[Book::counter];
-				for (int i = 0; i < Book::counter; i++) pSelected[i] = 0;
-				for (int i = 0; i < Book::counter; i++){
-					if (pBook[i].find(target) == true) {
-						std::cout << pBook[i];
-						pSelected[i] = 1;
-						countHit++;
-					}
+				system("cls"); system("color 0b");
+				if (pBook == nullptr){
+					std::cout << "There is no books." << std::endl
+						<< "Please input books first." << std::endl;
 				}
-				std::cout << "There are " << countHit << " hitted in total.";
+				else{
+					std::cout << "Please input what you want to search: ";
+					str target;
+					std::cin.getline(target, STD_STR_LENGTH);
+					pSelected = new int[Book::counter];
+					for (int i = 0; i < Book::counter; i++) pSelected[i] = 0;
+					for (int i = 0; i < Book::counter; i++){
+						if (pBook[i].find(target) == true) {
+							std::cout << pBook[i];
+							pSelected[i] = 1;
+							countHit++;
+						}
+					}
+					std::cout << "There are " << countHit << " hitted in total.";
+				}
 				std::cout << "Press Enter to continue.";
 				std::cin.get();
 				break;
 			case SORT_DATA:
-				system("cls"); system("color 03");
-				std::cout << "Sort from small to large or not? ";
-				str slORls;
-				std::cin.getline(slORls, STD_STR_LENGTH);
-				int flag;
-				if (analyze(slORls) == SMALL_TO_LARGE) flag = SMALL_TO_LARGE;
-				else flag = LARGE_TO_SMALL;
-				sort(pBook, Book::counter, flag);
-				if (flag == SMALL_TO_LARGE) std::cout << "Done. Sort by price successfully, SMALL_TO_LARGE";
-				else std::cout << "Done. Sort by price successfully, LARGE_TO_SMALL";
+				system("cls"); system("color 0b");
+				if (pBook == nullptr){
+					std::cout << "There is no books." << std::endl
+						<< "Please input books first." << std::endl;
+				}
+				else{
+					std::cout << "Sort from small to large or not? ";
+					str slORls;
+					std::cin.getline(slORls, STD_STR_LENGTH);
+					int flag;
+					if (analyze(slORls) == SMALL_TO_LARGE) flag = SMALL_TO_LARGE;
+					else flag = LARGE_TO_SMALL;
+					sort(pBook, Book::counter, flag);
+					if (flag == SMALL_TO_LARGE) std::cout << "Done. Sort by price successfully, SMALL_TO_LARGE" << std::endl;
+					else std::cout << "Done. Sort by price successfully, LARGE_TO_SMALL" << std::endl;
+				}
 				std::cout << "Press Enter to continue.";
 				std::cin.get();
 				break;
 			case DELETE_SELECTED:
-				system("cls"); system("color 03");
+				system("cls"); system("color 0b");
 				if (countHit == 0){
 					std::cerr << "Error. Nothing is selected." << std::endl;
 					std::cout << "Press Enter to continue.";
@@ -188,7 +202,7 @@ int main(){
 				}
 				break;
 			case MODIFY_SELECTED:
-				system("cls"); system("color 03");
+				system("cls"); system("color 0b");
 				if (countHit > 1){
 					std::cerr << "Error. More than one item have been chosen." << std::endl;
 					std::cout << "Press Enter to continue.";
@@ -199,9 +213,15 @@ int main(){
 				}
 				break;
 			case PRINT_AT_SCREEN:
-				system("cls"); system("color 03");
-				for (int i = 0; i < Book::counter; i++)
-					std::cout << pBook[i] << std::endl;
+				system("cls"); system("color 0b");
+				if (pBook == nullptr){
+					std::cout << "There is no books." << std::endl
+						<< "Please input books first." << std::endl;
+				}
+				else{
+					for (int i = 0; i < Book::counter; i++)
+						std::cout << pBook[i] << std::endl;
+				}
 				std::cout << "Press Enter to continue.";
 				std::cin.get();
 				break;

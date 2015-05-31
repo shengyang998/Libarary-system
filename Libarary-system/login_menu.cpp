@@ -28,6 +28,7 @@ int login(const User &user){
 }
 
 int menu(){
+	system("cls"); system("color 0a");
 	cout << "What do you want to do? Please select one and press Enter to continue." << endl << endl
 		<< "-1.Change your username and password\t" //<< endl
 		<< "0.EXIT" << endl
@@ -66,6 +67,8 @@ int menu(){
 		return DELETE_SELECTED;
 	case MODIFY_SELECTED:
 		return MODIFY_SELECTED;
+	case PRINT_AT_SCREEN:
+		return PRINT_AT_SCREEN;
 	default:
 		cerr<<"Unknown choice at menu.";
 	}
