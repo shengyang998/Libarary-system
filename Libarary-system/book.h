@@ -6,6 +6,7 @@
 class Book{
 public:
 	static int counter;
+
 protected:
 	str name;
 	str author;

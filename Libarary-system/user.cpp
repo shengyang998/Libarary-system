@@ -27,7 +27,7 @@ User::User(str& un, str& pw){
 }
 
 char* encode(str &unpw){//run before write to file
-	int strlength = std::strlen(unpw);
+	LL strlength = std::strlen(unpw);
 	for (int i = 0; i < strlength; i++){
 		if (unpw[i] == '\0') continue;
 		unpw[i] = unpw[i] - i % 42;
@@ -36,7 +36,7 @@ char* encode(str &unpw){//run before write to file
 }
 
 char* decode(str &unpw){//run before using the str
-	int strlength = std::strlen(unpw);
+	LL strlength = std::strlen(unpw);
 	for (int i = 0; i < strlength; i++){
 		if (unpw[i] == '\0') continue;
 		unpw[i] = unpw[i] + i % 42;
@@ -60,8 +60,8 @@ int User::writeUNPW(std::fstream &fout){
 	encode(password);
 	fout.write((char*)&username, sizeof(str));
 	fout.write((char*)&password, sizeof(str));
-	encode(username);
-	encode(password);
+	decode(username);
+	decode(password);
 	fout.seekp(0, fpos);
 	return 0;
 }

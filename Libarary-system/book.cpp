@@ -77,6 +77,16 @@ std::fstream& Book::binInput(std::fstream &fin){
 	return fin;
 }
 
+std::fstream& Book::binOutput(std::fstream &fout){
+	//fout.write(name, sizeof(name));
+	//fout.write(author, sizeof(author));
+	//fout.write(className, sizeof(className));
+	//fout.write(isbn, sizeof(isbn));
+	//fout.write((char*)&price, sizeof(price));
+	fout.write((char*)this, sizeof(Book));
+	return fout;
+}
+
 std::ofstream &operator<<(std::ofstream &fout, Book &book){
 	fout << "The name is " << book.name << std::endl
 		<< "Author: "
