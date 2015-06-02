@@ -89,20 +89,23 @@ std::fstream& Book::binOutput(std::fstream &fout){
 
 std::ofstream &operator<<(std::ofstream &fout, Book &book){
 	fout << "The name is " << book.name << std::endl
-		<< "Author: "
+		<< "Author: " << std::endl
 		<< "ISBN: " << book.isbn << std::endl
 		<< "Price: " << book.price << std::endl
-		<< "Stock number: " << book.num << std::endl;
+		<< "Class Name: " << book.className << std::endl
+		<< "Stock number: " << book.num << std::endl
+		<< std::endl;
 	return fout;
 }
 
 std::ostream &operator<<(std::ostream &out, Book &book){
-	out << "The name is " << book.name << "\t"
-		<< "Author: " << book.author << "\t"
-		<< "ISBN: " << book.isbn << "\t"
-		<< "Price: " << book.price << "\t"
-		<< "Class Name: " << book.className << "\t"
-		<< "Stock number: " << book.num << std::endl;
+	out << "The name is " << book.name << std::endl
+		<< "Author: " << book.author << std::endl
+		<< "ISBN: " << book.isbn << std::endl
+		<< "Price: " << book.price << std::endl
+		<< "Class Name: " << book.className << std::endl
+		<< "Stock number: " << book.num << std::endl
+		<< std::endl;
 	return out;
 }
 

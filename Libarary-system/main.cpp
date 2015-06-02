@@ -205,13 +205,27 @@ int main(){
 				break;
 			case MODIFY_SELECTED:
 				system("cls"); system("color 0b");
-				if (countHit > 1){
-					std::cerr << "Error. More than one item have been chosen." << std::endl;
+				if (pBook == nullptr){
+					std::cout << "There is no books." << std::endl
+						<< "Please input books first." << std::endl;
 					std::cout << "Press Enter to continue.";
 					std::cin.get();
 				}
-				else {
-					change(pBook, Book::counter, pSelected);
+				else if (pSelected == nullptr){
+					std::cout << "Nothing is seleted." << std::endl
+						<< "Please seleted one first." << std::endl;
+					std::cout << "Press Enter to continue.";
+					std::cin.get();
+				}
+				else{
+					if (countHit > 1){
+						std::cerr << "Error. More than one item have been chosen." << std::endl;
+						std::cout << "Press Enter to continue.";
+						std::cin.get();
+					}
+					else {
+						change(pBook, Book::counter, pSelected);
+					}
 				}
 				break;
 			case PRINT_AT_SCREEN:
